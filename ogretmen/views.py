@@ -27,7 +27,7 @@ def sinavSil(request,pk):
         sinav.delete()
         return redirect('/')
     context = {'item': sinav}
-    return render(request,'ogretmen/sil.html',context)
+    return render(request, 'ogretmen/sinavSil.html', context)
 
 def profile(request): #öğretmen profil bölümü viewi
     return render(request, 'ogretmen/profile.html')
