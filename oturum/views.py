@@ -4,6 +4,7 @@ from django.contrib.auth.models import User,Group
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from rest_framework.authtoken.models import Token
 
 
 def home(request):

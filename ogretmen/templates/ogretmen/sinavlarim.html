@@ -9,18 +9,20 @@
                     <table class="table table-sm">
                         <tr>
                             <th>Sınav Adı</th>
-                            <th>Kazanım Ekle</th>
-                            <th>Soru Puanları Ekle</th>
+                            <th>Kazanımlar</th>
+                            <th>Soruların Puanları</th>
                             <th>Analiz Raporu</th>
                             <th>Sınav Sil</th>
                         </tr>
+                        {% for sinav in sinavlar %}
                         <tr>
-                            <td>isim gelecek</td>
-                            <td><a class="btn btn-sm btn-info" href="">Kazanım Ekle</a></td>
-                            <td><a class="btn btn-sm btn-info" href="">Soru Puanları Ekle</a></td>
-                            <td><a class="btn btn-sm btn-info" href="">Rapor Al</a></td>
-                            <td><a class="btn btn-sm btn-danger" href="">Delete</a></td>
+                            <td>{{ sinav }}</td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle</a></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle</a></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>
+                            <td><a class="btn btn-sm btn-danger" href="{% url 'raporal' sinav.id %}">Delete</a></td>
                         </tr>
+                        {% endfor %}
                     </table>
                 </div>
             </div>
