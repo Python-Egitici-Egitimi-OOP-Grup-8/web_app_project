@@ -1,0 +1,16 @@
+{% extends "oturum/base.html" %}
+{% block content %}
+    <br>
+    <div class="row">
+         <div class="col-md-6">
+            <div class="card card-body">
+    <p>Silmek istediğinden emin misin ''{{ item }}?</p>
+    <form action="{% url 'sinavsil' item.id %}" method="post">
+    {% csrf_token %}
+    <a class="btn btn-warning" href="{% url 'sinavlarim' %}">İptal</a>
+    <input class="btn btn-danger" type="submit" name="Onayla">
+    </form>
+            </div>
+        </div>
+     </div>
+{% endblock content %}
