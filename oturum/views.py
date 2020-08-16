@@ -53,6 +53,6 @@ def loginuser(request):
 def logoutuser(request):
     if request.method == 'POST':
         logout(request)
-        return redirect('home')
+        return redirect('/')
 
     

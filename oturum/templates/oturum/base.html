@@ -1,3 +1,4 @@
+{% load auth_extras %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -24,21 +25,39 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-   {% comment %}  {% if user.is_authenticated %} {% endcomment %}
+    {% if user.is_authenticated %} 
+      {% if request.user|has_group:"ogretmen"  %}
         <ul class="navbar-nav mr-auto">
 
                 <li class="nav-item ">
-                    <a class="nav-link" href="{% comment %} {% url 'currenttodos' %} {% endcomment %}">Current</a>
+                    <a class="nav-link" href="">Sınavlarım</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="{% comment %} {% url 'completedtodos' %} {% endcomment %}">Completed</a>
+                    <a class="nav-link" href="">Sınav Analiz raporları</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="{% comment %} {% url 'createtodo' %} {% endcomment %}">Create</a>
+                    <a class="nav-link" href="">profilim</a>
+                </li>
+                 <li class="nav-item ">
+                    <a class="nav-link" href="">Token oluştur</a>
                 </li>
 
         </ul>
-  {% comment %}   {% endif %} {% endcomment %}
+        {% endif %}
+        {% if request.user|has_group:"ogrenci"  %}
+        <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item ">
+                    <a class="nav-link" href="">Sınav Rapor</a>
+                </li>
+               
+                <li class="nav-item ">
+                    <a class="nav-link" href="">profilim</a>
+                </li>
+
+        </ul>
+        {% endif %}
+    {% endif %} 
     <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
                 <li class="nav-item">
