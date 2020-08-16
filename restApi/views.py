@@ -66,8 +66,8 @@ def restapideneme(request):
 
 class OgrenciCevapList(generics.ListAPIView):
     serializer_class = OgrenciCevapSerializer
-    #permission_classes sonundaki es takısı kalkarsa yetkisiz erişimde hata verir.
-    #permission_classes=[permissions.IsAuthenticated]
+   
+    permission_classes=[permissions.IsAuthenticated]
 
     def get_queryset(self):
         #user=self.request.user
@@ -75,12 +75,13 @@ class OgrenciCevapList(generics.ListAPIView):
 
 class OgrenciCevapEkle(generics.ListCreateAPIView):
     serializer_class = OgrenciCevapSerializer
-    #permission_classes sonundaki es takısı kalkarsa yetkisiz erişimde hata verir.
+    
     permission_classes=[permissions.IsAuthenticated]
 
-    def get_queryset(self):
-        #user=self.request.user
-        return OgrenciCevap.objects.all()
+    # def get_queryset(self):
+    #     #user=self.request.user
+    #     return JsonResponse({'mesaj':"Öğrenci cevpları veritabanına yazıldı"},status=201)
+    #     #return OgrenciCevap.objects.all()
 
     def perform_create(self,serializer):
         #print("HATA_MESAJI: "+str(serializer.data['sinav']))
@@ -95,6 +96,7 @@ class OgrenciCevapEkle(generics.ListCreateAPIView):
                      raise ValidationError('Öğrenci bu sınava daha önce cevap gönderdi.')
                 else:            
                     serializer.save()
+                   
             else:
                 raise ValidationError('Öğrenci kayılı değil tc no yanlış yazılmış olabilir..')
         else:
