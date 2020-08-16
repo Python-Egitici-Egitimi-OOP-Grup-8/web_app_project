@@ -10,4 +10,5 @@ urlpatterns = [
     path('sorupuan/<str:pk>', views.soruPuan, name='sorupuan'),
     path('raporal/<str:pk>', views.raporAl, name='raporal'),
     path('sinavsil/<str:pk>', views.sinavSil, name='sinavsil'),
+    path('paroladegis', views.parolaDegistir, name='paroladegis'),
 ]

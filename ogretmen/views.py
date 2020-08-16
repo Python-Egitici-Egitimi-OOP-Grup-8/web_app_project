@@ -39,6 +39,12 @@ def sinavSil(request,pk):
 def profile(request): #öğretmen profil bölümü viewi
     return render(request, 'ogretmen/profile.html')
 
+def updateProfile(request):
+    pass
+
+def parolaDegistir(request):
+    pass
+
 def tokenAl(request): #öğretmen token alma bölümü viewi
     return render(request, 'ogretmen/tokenAl.html')
 
