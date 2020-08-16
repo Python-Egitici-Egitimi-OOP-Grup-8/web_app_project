@@ -20,7 +20,7 @@ def sinavlarim(request): #öğretmen sınavlarım bölümü viewi
     return render(request, 'ogretmen/sinavlarim.html', context)
 
 def kazanimlar(request,pk):
-    pass
+    return render(request,'ogretmen/kazanimlar.html')
 
 def soruPuan(request,pk):
     pass
