@@ -1,0 +1,31 @@
+{% extends "oturum/base.html" %}
+{% block content %}
+<br>
+<div class="row justify-content-center mt-5">
+        <div class="col-md-7 text-center">
+            <div class="col-md">
+                <div class="card card-body">
+                    <h3>Sınavlarım</h3>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Sınav Adı</th>
+                            <th>Kazanımlar</th>
+                            <th>Soruların Puanları</th>
+                            <th>Analiz Raporu</th>
+                            <th>Sınav Sil</th>
+                        </tr>
+                        {% for sinav in sinavlar %}
+                        <tr>
+                            <td>{{ sinav }}</td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle</a></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle</a></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>
+                            <td><a class="btn btn-sm btn-danger" href="{% url 'raporal' sinav.id %}">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content%}
