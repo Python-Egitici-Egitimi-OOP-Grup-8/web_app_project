@@ -1,18 +1,34 @@
 {% extends "oturum/base.html" %}
-
 {% block content %}
 <br>
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
-<div class="row justify-content-center mt-5">
-        <div class="col-md-7 text-center">
-                {{ request.user }}
-                 <h1>Profilim</h1>
+<br>
 
-        </div>
-    </div>
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>{{ request.user }}</h5>
+			<hr>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="">Güncelle</a>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="">Sınav Ekle</a>
 
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Restfull Bağlantı İçin Token</h5>
+			<hr>
+			<p>xxxxx</p>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Sınav Sayısı</h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px">Sınav Sayısı</h1>
+		</div>
+	</div>
+</div>
 {% endblock %}
