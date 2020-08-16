@@ -12,6 +12,7 @@ from django.http  import JsonResponse
 from oturum.models import OgrenciCevap,Sinav
 from rest_framework.exceptions import  ValidationError
 from .serializers import OgrenciCevapSerializer
+from django.contrib.auth.decorators import user_passes_test
 @csrf_exempt
 def login(request):
     
@@ -64,27 +65,22 @@ def is_ogrenci(user):
 def restapideneme(request):
     return HttpResponse('<h1>Rest Api Deneme Sayfasına Hoşa geldiniz</h1>')
 
-class OgrenciCevapList(generics.ListAPIView):
-    serializer_class = OgrenciCevapSerializer
-   
-    permission_classes=[permissions.IsAuthenticated]
+class IsApiUser(permissions.BasePermission):
+    #Allows access only to api_users group members.
+    def has_permission(self, request, view):
+        if request.user and request.user.groups.filter(name='ogretmen'):
+            return True
+        return False
 
-    def get_queryset(self):
-        #user=self.request.user
-        return OgrenciCevap.objects.all()
 
-class OgrenciCevapEkle(generics.ListCreateAPIView):
+
+class OgrenciCevapEkle(generics.CreateAPIView):
     serializer_class = OgrenciCevapSerializer
     
-    permission_classes=[permissions.IsAuthenticated]
-
-    # def get_queryset(self):
-    #     #user=self.request.user
-    #     return JsonResponse({'mesaj':"Öğrenci cevpları veritabanına yazıldı"},status=201)
-    #     #return OgrenciCevap.objects.all()
+    permission_classes=[IsApiUser]
 
     def perform_create(self,serializer):
-        #print("HATA_MESAJI: "+str(serializer.data['sinav']))
+        
         ogrenci=serializer.validated_data.get('ogrenci')
         sinav=serializer.validated_data.get('sinav')
         user=self.request.user
