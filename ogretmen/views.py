@@ -7,9 +7,16 @@ def ogretmenIndex(request): #öğretmen ana sayfa viewi
 
 def sinavlarim(request): #öğretmen sınavlarım bölümü viewi
     sinavlar = Sinav.objects.filter(user=request.user)
-    context = {
-        'sinavlar': sinavlar,
-    }
+    if sinavlar:
+        context = {
+            'sinavlar': sinavlar,
+            'bosMu': False,
+        }
+    else:
+        context = {
+            'sinavlar': sinavlar,
+            'bosMu': True,
+        }
     return render(request, 'ogretmen/sinavlarim.html', context)
 
 def kazanimlar(request,pk):
@@ -23,10 +30,10 @@ def raporAl(request,pk):
 
 def sinavSil(request,pk):
     sinav = Sinav.objects.get(id=pk)
-    if request.method == 'POST':
+    if request.method == 'POST': #form üzerinden silme onayı gelmişse sil ve sinavlar listesine yönlendir.
         sinav.delete()
-        return redirect('/sianvlarim/')
-    context = {'item': sinav}
+        return redirect('/ogretmen/sinavlarim')
+    context = {'item': sinav} #link üzerinden gelmişse silme işlemi onayı için yönlendir.
     return render(request, 'ogretmen/sinavSil.html', context)
 
 def profile(request): #öğretmen profil bölümü viewi

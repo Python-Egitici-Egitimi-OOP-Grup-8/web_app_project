@@ -7,6 +7,7 @@
                 <div class="card card-body">
                     <h3>Sınavlarım</h3>
                     <table class="table table-sm">
+                    {% if not bosMu %}
                         <tr>
                             <th>Sınav Adı</th>
                             <th>Kazanımlar</th>
@@ -23,6 +24,9 @@
                             <td><a class="btn btn-sm btn-danger" href="{% url 'sinavsil' sinav.id %}">Delete</a></td>
                         </tr>
                         {% endfor %}
+                    {% else %}
+                        <h4>Görüntülenecek sınav yok!</h4>
+                    {% endif %}
                     </table>
                 </div>
             </div>
