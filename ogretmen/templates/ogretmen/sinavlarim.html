@@ -20,7 +20,7 @@
                             <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>
-                            <td><a class="btn btn-sm btn-danger" href="{% url 'raporal' sinav.id %}">Delete</a></td>
+                            <td><a class="btn btn-sm btn-danger" href="{% url 'sinavsil' sinav.id %}">Delete</a></td>
                         </tr>
                         {% endfor %}
                     </table>

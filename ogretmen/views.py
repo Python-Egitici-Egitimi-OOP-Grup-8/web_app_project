@@ -25,7 +25,7 @@ def sinavSil(request,pk):
     sinav = Sinav.objects.get(id=pk)
     if request.method == 'POST':
         sinav.delete()
-        return redirect('/')
+        return redirect('/sianvlarim/')
     context = {'item': sinav}
     return render(request, 'ogretmen/sinavSil.html', context)
 
