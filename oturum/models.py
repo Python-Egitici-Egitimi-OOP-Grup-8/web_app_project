@@ -53,7 +53,7 @@ class SoruKazanim(models.Model):
          locals()[secenek] = models.ForeignKey(Kazanim, related_name=secenek,on_delete=models.CASCADE,blank=True,null=True)
     
     def __str__(self):
-        return self.sınav.baslik+"  "+str(self.sınav.olusturulmatarihi)
+        return self.sınav.baslik+"  "+str(self.sinav.olusturulmatarihi)
 
 class OgrenciCevap(models.Model):
     ogrenci = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -63,7 +63,7 @@ class OgrenciCevap(models.Model):
          locals()[secenek] = models.ForeignKey(Cevap, related_name=('C'+secenek),on_delete=models.CASCADE,blank=True,null=True)
     
     def __str__(self):
-        return self.ogrenci.name +" "+sinav.baslik
+        return self.ogrenci.username +" "+self.sinav.baslik
 
 class OgrenciPuan(models.Model):
     sinav =models.ForeignKey(Sinav, on_delete=models.CASCADE)
@@ -72,4 +72,4 @@ class OgrenciPuan(models.Model):
         locals()[secenek] = models.IntegerField(blank=True,null=True)
     
     def __str__(self):
-        return self.ogrenci.name +" "+sinav.baslik 
+        return self.ogrenci.username +" "+self.sinav.baslik 
