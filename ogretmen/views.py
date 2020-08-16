@@ -1,4 +1,4 @@
-from django.shortcuts import render  #view function ile return edilecek sayfayı render edecek fonksiyon.
+from django.shortcuts import render, redirect  #view function ile return işlemi esnasında kullanılacak fonksiyonlar
 from oturum.models import Sinav
 from django.http import HttpResponse
 
@@ -22,7 +22,12 @@ def raporAl(request,pk):
     pass
 
 def sinavSil(request,pk):
-    pass
+    sinav = Sinav.objects.get(id=pk)
+    if request.method == 'POST':
+        sinav.delete()
+        return redirect('/')
+    context = {'item': sinav}
+    return render(request,'ogretmen/sil.html',context)
 
 def profile(request): #öğretmen profil bölümü viewi
     return render(request, 'ogretmen/profile.html')
