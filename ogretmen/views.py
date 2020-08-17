@@ -53,7 +53,7 @@ def sinavSil(request,pk):
     context = {'item': sinav} #link üzerinden gelmişse silme işlemi onayı için yönlendir.
     return render(request, 'ogretmen/sinavSil.html', context)
 
-def profile(request): #öğretmen profil bölümü viewi
+def profil(request): #öğretmen profil bölümü viewi
     user = User.objects.get(id=request.user.id)
     context = {
         'adi' : user.first_name,
@@ -62,10 +62,18 @@ def profile(request): #öğretmen profil bölümü viewi
     }
     # form = Profilim(instance=user)
     # context = {'form': form}
-    return render(request, 'ogretmen/profile.html',context)
+    return render(request, 'ogretmen/profil.html',context)
 
-def updateProfile(request):
-    pass
+def updateProfil(request):
+    user = User.objects.get(id=request.user.id)
+    form = Profilim(instance=user)
+    context = {'form': form}
+    if request.method == 'POST':
+        form = Profilim(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('/ogretmen/profilim')
+    return render(request, 'ogretmen/profilGuncelle.html', context)
 
 def parolaDegistir(request):
     pass
