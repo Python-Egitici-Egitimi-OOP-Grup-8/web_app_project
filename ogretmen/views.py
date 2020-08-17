@@ -21,7 +21,15 @@ def sinavlarim(request): #öğretmen sınavlarım bölümü viewi
     return render(request, 'ogretmen/sinavlarim.html', context)
 
 def kazanimlar(request,pk):
-    return render(request,'ogretmen/kazanimlar.html')
+    kazanim = SoruKazanim.objects.get(sinav_id=pk)
+    form = KazanimSoru(instance=kazanim)
+    context = {'form': form}
+    if request.method == 'POST':
+        form = KazanimSoru(request.POST, instance=kazanim)
+        if form.is_valid():
+            form.save()
+            return redirect('/ogretmen/sinavlarim')
+    return render(request,'ogretmen/kazanimlar.html',context)
 
 def soruPuan(request,pk):
     puan = SoruPuanlama.objects.get(sinav_id=pk)
@@ -46,7 +54,15 @@ def sinavSil(request,pk):
     return render(request, 'ogretmen/sinavSil.html', context)
 
 def profile(request): #öğretmen profil bölümü viewi
-    return render(request, 'ogretmen/profile.html')
+    user = User.objects.get(id=request.user.id)
+    context = {
+        'adi' : user.first_name,
+        'soyadi' : user.last_name,
+        'email' : user.email,
+    }
+    # form = Profilim(instance=user)
+    # context = {'form': form}
+    return render(request, 'ogretmen/profile.html',context)
 
 def updateProfile(request):
     pass
