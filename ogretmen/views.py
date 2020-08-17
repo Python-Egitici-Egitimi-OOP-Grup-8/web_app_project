@@ -97,6 +97,10 @@ def sinavEkle(request):
             sinav = form.save(commit=False)
             sinav.user_id = request.user.id
             sinav.save()
+            kazanim = SoruKazanim(sinav_id=sinav.id)
+            kazanim.save()
+            puan = SoruPuanlama(sinav_id=sinav.id)
+            puan.save()
             return redirect('/ogretmen/sinavlarim')
     return render(request, 'ogretmen/sinavEkle.html', context)
 
