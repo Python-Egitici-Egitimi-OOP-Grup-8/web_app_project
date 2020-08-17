@@ -22,7 +22,7 @@ def sinavlarim(request): #öğretmen sınavlarım bölümü viewi
         }
     return render(request, 'ogretmen/sinavlarim.html', context)
 
-def kazanimlar(request,pk):
+def soruKazanim(request,pk):
     sorusay = Sinav.objects.get(id=pk).sorusayisi
     kazanim = SoruKazanim.objects.get(sinav_id=pk)
     form = KazanimSoru(instance=kazanim)
@@ -112,6 +112,9 @@ def sinavEkle(request):
     return render(request, 'ogretmen/sinavEkle.html', context)
 
 def raporAl(request,pk):
+    sinav = Sinav.objects.get(id=pk)
+    sorupuan = SoruPuanlama.objects.get(sinav_id=sinav.id)
+    kazanim = SoruKazanim.objects.get(sinav_id=sinav.id)
     return render(request,'ogretmen/rapor.html')
 
 def tokenAl(request):

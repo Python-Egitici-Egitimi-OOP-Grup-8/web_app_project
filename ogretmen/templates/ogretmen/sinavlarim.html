@@ -1,9 +1,9 @@
 {% extends "oturum/base.html" %}
 {% block content %}
 <br>
-<div class="row justify-content-center mt-5">
+<div class="row justify-content-center mt-7">
         <div class="col-md text-center">
-            <div class="col-md">
+            <div class="col-md-0">
                 <div class="card card-body">
                     {% if not bosMu %}
                     <h3>Sınavlarım</h3>
@@ -13,6 +13,7 @@
                         <tr>
                             <th>Sınav Kodu</th>
                             <th>Sınav Adı</th>
+                            <th>Doğru Cevap</th>
                             <th>Kazanım</th>
                             <th>Puan</th>
                             <th>Analiz Raporu</th>
@@ -22,6 +23,7 @@
                         <tr>
                             <td>{{ sinav.id }}</td>
                             <td>{{ sinav }}</td>
+                            <td><a class="btn btn-sm btn-info" href="">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>
