@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404  # view function ile return işlemi esnasında kullanılacak fonksiyonlar
 from oturum.models import *
 from .forms import *
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
 
 def ogretmenIndex(request): #öğretmen ana sayfa viewi
@@ -76,7 +77,14 @@ def updateProfil(request):
     return render(request, 'ogretmen/profilGuncelle.html', context)
 
 def parolaDegistir(request):
-    pass
+    form = PasswordChangeForm(user=request.user)
+    context = {'form':form}
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/ogretmen/profilim')
+    return render(request, 'ogretmen/paroladegistir.html', context)
 
 def tokenAl(request): #öğretmen token alma bölümü viewi
     return render(request, 'ogretmen/tokenAl.html')
