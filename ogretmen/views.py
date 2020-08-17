@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect  #view function ile return işlemi esnasında kullanılacak fonksiyonlar
-from oturum.models import Sinav
+from django.shortcuts import render, redirect, get_object_or_404  # view function ile return işlemi esnasında kullanılacak fonksiyonlar
+from oturum.models import *
+from .forms import *
 from django.http import HttpResponse
 
 def ogretmenIndex(request): #öğretmen ana sayfa viewi
@@ -23,7 +24,15 @@ def kazanimlar(request,pk):
     return render(request,'ogretmen/kazanimlar.html')
 
 def soruPuan(request,pk):
-    pass
+    puan = SoruPuanlama.objects.get(sinav_id=pk)
+    form = SoruPuanForm(instance= puan)
+    context = {'form': form}
+    if request.method == 'POST':
+        form = SoruPuanForm(request.POST, instance=puan)
+        if form.is_valid():
+            form.save()
+            return redirect('/ogretmen/sinavlarim')
+    return render(request, 'ogretmen/sorupuan.html', context)
 
 def raporAl(request,pk):
     pass
