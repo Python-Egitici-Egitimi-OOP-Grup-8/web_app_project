@@ -52,8 +52,7 @@ def soruPuan(request,pk):
             return redirect('/ogretmen/sinavlarim')
     return render(request, 'ogretmen/sorupuan.html', context)
 
-def raporAl(request,pk):
-    pass
+
 
 def sinavSil(request,pk):
     sinav = Sinav.objects.get(id=pk)
@@ -112,6 +111,8 @@ def sinavEkle(request):
             return redirect('/ogretmen/sinavlarim')
     return render(request, 'ogretmen/sinavEkle.html', context)
 
+def raporAl(request,pk):
+    return render(request,'ogretmen/rapor.html')
 
 def tokenAl(request):
     return render(request, 'ogretmen/tokenAl.html')
