@@ -2,13 +2,14 @@
 {% block content %}
 <br>
 <div class="row justify-content-center mt-5">
-        <div class="col-md-7 text-center">
+        <div class="col-md text-center">
             <div class="col-md">
                 <div class="card card-body">
                     <h3>Sınavlarım</h3>
                     <table class="table table-sm">
                     {% if not bosMu %}
                         <tr>
+                            <th>Sınav Kodu</th>
                             <th>Sınav Adı</th>
                             <th>Kazanımlar</th>
                             <th>Soruların Puanları</th>
@@ -17,6 +18,7 @@
                         </tr>
                         {% for sinav in sinavlar %}
                         <tr>
+                            <td>{{ sinav.id }}</td>
                             <td>{{ sinav }}</td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle</a></td>
@@ -29,6 +31,7 @@
                     {% endif %}
                     </table>
                 </div>
+            <a class="btn btn-outline-info  btn-sm btn-block" href="">Sınav Ekle</a>
             </div>
         </div>
     </div>
