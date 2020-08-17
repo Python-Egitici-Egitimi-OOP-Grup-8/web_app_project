@@ -12,4 +12,5 @@ urlpatterns = [
     path('sinavsil/<str:pk>', views.sinavSil, name='sinavsil'),
     path('paroladegis', views.parolaDegistir, name='paroladegis'),
     path('profilguncelle', views.updateProfil, name='profilguncelle'),
+    path('sinavekle', views.sinavEkle, name='sinavekle'),
 ]

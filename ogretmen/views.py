@@ -79,7 +79,7 @@ def updateProfil(request):
 
 def parolaDegistir(request):
     form = PasswordChangeForm(request.user)
-    context = {'form':form}
+    context = { 'form':form }
     if request.method == 'POST':
         form = PasswordChangeForm(request.user,request.POST or None)
         if form.is_valid():
@@ -88,6 +88,19 @@ def parolaDegistir(request):
             return redirect('/ogretmen/profilim')
     return render(request, 'ogretmen/paroladegistir.html', context)
 
-def tokenAl(request): #öğretmen token alma bölümü viewi
+def sinavEkle(request):
+    form = SinavEkle
+    context = {'form': form}
+    if request.method == 'POST':
+        form =SinavEkle(request.POST)
+        if form.is_valid():
+            sinav = form.save(commit=False)
+            sinav.user_id = request.user.id
+            sinav.save()
+            return redirect('/ogretmen/sinavlarim')
+    return render(request, 'ogretmen/sinavEkle.html', context)
+
+
+def tokenAl(request):
     return render(request, 'ogretmen/tokenAl.html')
 

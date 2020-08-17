@@ -5,7 +5,9 @@
         <div class="col-md text-center">
             <div class="col-md">
                 <div class="card card-body">
+                    {% if not bosMu %}
                     <h3>Sınavlarım</h3>
+                    {% endif %}
                     <table class="table table-sm">
                     {% if not bosMu %}
                         <tr>
@@ -27,11 +29,11 @@
                         </tr>
                         {% endfor %}
                     {% else %}
-                        <h4>Görüntülenecek sınav yok!</h4>
+                        <h4>Üzerinizde tanımlı sınav sınav bulunmamaktadır. Lütfen sınav ekleyiniz!</h4>
                     {% endif %}
                     </table>
                 </div>
-            <a class="btn btn-outline-info  btn-sm btn-block" href="">Sınav Ekle</a>
+            <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'sinavekle' %}">Sınav Ekle</a>
             </div>
         </div>
     </div>
