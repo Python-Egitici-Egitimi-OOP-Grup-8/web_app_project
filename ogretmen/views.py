@@ -1,3 +1,4 @@
+from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect, get_object_or_404  # view function ile return işlemi esnasında kullanılacak fonksiyonlar
 from oturum.models import *
 from .forms import *
@@ -77,12 +78,13 @@ def updateProfil(request):
     return render(request, 'ogretmen/profilGuncelle.html', context)
 
 def parolaDegistir(request):
-    form = PasswordChangeForm(user=request.user)
+    form = PasswordChangeForm(request.user)
     context = {'form':form}
     if request.method == 'POST':
-        form = PasswordChangeForm(request.POST)
+        form = PasswordChangeForm(request.user,request.POST or None)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            update_session_auth_hash(request, user) # Sistem atmasın diye yeni parola bilgileri ile oturumu güncelleniyor.
             return redirect('/ogretmen/profilim')
     return render(request, 'ogretmen/paroladegistir.html', context)
 
