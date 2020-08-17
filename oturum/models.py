@@ -53,7 +53,7 @@ class SoruKazanim(models.Model):
          locals()[secenek] = models.ForeignKey(Kazanim, related_name=secenek,on_delete=models.CASCADE,blank=True,null=True)
     
     def __str__(self):
-        return self.sınav.baslik+"  "+str(self.sinav.olusturulmatarihi)
+        return self.sinav.baslik+"  "+str(self.sinav.olusturulmatarihi)
 
 class OgrenciCevap(models.Model):
     ogrenci = models.ForeignKey(User, on_delete=models.CASCADE)
