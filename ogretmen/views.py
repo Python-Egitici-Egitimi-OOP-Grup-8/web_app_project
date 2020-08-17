@@ -23,9 +23,13 @@ def sinavlarim(request): #öğretmen sınavlarım bölümü viewi
     return render(request, 'ogretmen/sinavlarim.html', context)
 
 def kazanimlar(request,pk):
+    sorusay = Sinav.objects.get(id=pk).sorusayisi
     kazanim = SoruKazanim.objects.get(sinav_id=pk)
     form = KazanimSoru(instance=kazanim)
-    context = {'form': form}
+    context = {
+        'form':form,
+        'say':sorusay
+    }
     if request.method == 'POST':
         form = KazanimSoru(request.POST, instance=kazanim)
         if form.is_valid():
@@ -34,9 +38,13 @@ def kazanimlar(request,pk):
     return render(request,'ogretmen/kazanimlar.html',context)
 
 def soruPuan(request,pk):
+    sorusay = Sinav.objects.get(id=pk).sorusayisi
     puan = SoruPuanlama.objects.get(sinav_id=pk)
     form = SoruPuanForm(instance= puan)
-    context = {'form': form}
+    context = {
+        'form':form,
+        'say':sorusay
+    }
     if request.method == 'POST':
         form = SoruPuanForm(request.POST, instance=puan)
         if form.is_valid():

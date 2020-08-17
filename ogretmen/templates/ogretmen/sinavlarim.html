@@ -13,8 +13,8 @@
                         <tr>
                             <th>Sınav Kodu</th>
                             <th>Sınav Adı</th>
-                            <th>Kazanımlar</th>
-                            <th>Soruların Puanları</th>
+                            <th>Kazanım</th>
+                            <th>Puan</th>
                             <th>Analiz Raporu</th>
                             <th>Sınav Sil</th>
                         </tr>
@@ -22,8 +22,8 @@
                         <tr>
                             <td>{{ sinav.id }}</td>
                             <td>{{ sinav }}</td>
-                            <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle</a></td>
-                            <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle</a></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle | Değiştir</a></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>
                             <td><a class="btn btn-sm btn-danger" href="{% url 'sinavsil' sinav.id %}">Delete</a></td>
                         </tr>

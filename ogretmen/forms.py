@@ -7,12 +7,12 @@ from oturum.models import *
 class SoruPuanForm(ModelForm):
     class Meta:
         model = SoruPuanlama
-        fields = '__all__'
+        exclude = ['sinav']
 
 class KazanimSoru(ModelForm):
     class Meta:
         model = SoruKazanim
-        fields = '__all__'
+        exclude = ['sinav']
 
 class Profilim(ModelForm):
     class Meta:
