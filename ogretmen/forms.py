@@ -24,3 +24,7 @@ class SinavEkle(ModelForm):
         model = Sinav
         fields = ['baslik','ders','sorusayisi']
 
+class CevapEkle(ModelForm):
+    class Meta:
+        model = Sinav
+        exclude = ['user','baslik','ders','sorusayisi']

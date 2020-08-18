@@ -23,7 +23,7 @@
                         <tr>
                             <td>{{ sinav.id }}</td>
                             <td>{{ sinav }}</td>
-                            <td><a class="btn btn-sm btn-info" href="">Ekle | Değiştir</a></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'cevapekle' sinav.id%}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>

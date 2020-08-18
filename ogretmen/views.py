@@ -111,6 +111,20 @@ def sinavEkle(request):
             return redirect('/ogretmen/sinavlarim')
     return render(request, 'ogretmen/sinavEkle.html', context)
 
+def cevaplariEkle(request,pk):
+    sinav = Sinav.objects.get(id=pk)
+    form = CevapEkle(instance=sinav)
+    context = {
+        'form':form,
+        'sorusay':sinav.sorusayisi
+    }
+    if request.method == 'POST':
+        form = CevapEkle(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/ogretmen/sinavlarim')
+    return render(request,'ogretmen/dogrucevap.html',context)
+
 def raporAl(request,pk):
     sinav = Sinav.objects.get(id=pk)
     sorupuan = SoruPuanlama.objects.get(sinav_id=sinav.id)

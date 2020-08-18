@@ -6,6 +6,7 @@ urlpatterns = [
     path('sinavlarim',views.sinavlarim, name='sinavlarim'),
     path('profilim',views.profil, name='profilim'),
     path('token',views.tokenAl, name='tokenAl'),
+    path('cevapekle/<str:pk>', views.cevaplariEkle, name='cevapekle'),
     path('kazanimlar/<str:pk>', views.soruKazanim, name='kazanimlar'),
     path('sorupuan/<str:pk>', views.soruPuan, name='sorupuan'),
     path('raporal/<str:pk>', views.raporAl, name='raporal'),
