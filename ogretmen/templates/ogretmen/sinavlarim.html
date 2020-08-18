@@ -12,6 +12,7 @@
                     {% if not bosMu %}
                         <tr>
                             <th>Sınav Kodu</th>
+                            <th>Oluşturulma</th>
                             <th>Sınav Adı</th>
                             <th>Doğru Cevap</th>
                             <th>Kazanım</th>
@@ -22,12 +23,13 @@
                         {% for sinav in sinavlar %}
                         <tr>
                             <td>{{ sinav.id }}</td>
-                            <td>{{ sinav }}</td>
+                            <td>{{ sinav.olusturulmatarihi.date }}</td>
+                            <td>{{ sinav.baslik }}</td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'cevapekle' sinav.id%}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>
-                            <td><a class="btn btn-sm btn-danger" href="{% url 'sinavsil' sinav.id %}">Delete</a></td>
+                            <td><a class="btn btn-sm btn-danger" href="{% url 'sinavsil' sinav.id %}">Sil</a></td>
                         </tr>
                         {% endfor %}
                     {% else %}

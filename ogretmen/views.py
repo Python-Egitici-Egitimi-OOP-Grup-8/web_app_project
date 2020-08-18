@@ -52,8 +52,6 @@ def soruPuan(request,pk):
             return redirect('/ogretmen/sinavlarim')
     return render(request, 'ogretmen/sorupuan.html', context)
 
-
-
 def sinavSil(request,pk):
     sinav = Sinav.objects.get(id=pk)
     if request.method == 'POST': #form üzerinden silme onayı gelmişse sil ve sinavlar listesine yönlendir.
@@ -127,10 +125,19 @@ def cevaplariEkle(request,pk):
 
 def raporAl(request,pk):
     sinav = Sinav.objects.get(id=pk)
+    ogrcevaplar = OgrenciCevap.objects.get(sinav_id=sinav.id)
     sorupuan = SoruPuanlama.objects.get(sinav_id=sinav.id)
     kazanim = SoruKazanim.objects.get(sinav_id=sinav.id)
-    return render(request,'ogretmen/rapor.html')
+    context={
+        'sinav_adi': sinav.baslik,
+        'tarih': sinav.olusturulmatarihi.date(),
+        'sorusayisi':sinav.sorusayisi,
+        'sinav_ort':0,
+        'en_yuksek_alan':0,
+        'en_dusuk_alan':0,
+    }
+    return render(request,'ogretmen/rapor.html', context)
 
-def tokenAl(request):
+def tokenAl(request,pk):
     return render(request, 'ogretmen/tokenAl.html')
 
