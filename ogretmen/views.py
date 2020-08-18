@@ -115,13 +115,13 @@ def cevaplariEkle(request,pk):
     sinav = Sinav.objects.get(id=pk)
     form = CevapEkle(instance=sinav)
     context = {
-        'form':form,
-        'sorusay':sinav.sorusayisi
+        'form': form,
+        'sorusay': sinav.sorusayisi,
     }
     if request.method == 'POST':
-        form = CevapEkle(request.POST)
+        form = CevapEkle(request.POST,instance=sinav)
         if form.is_valid():
-            form.save()
+            form.save(commit=True)
             return redirect('/ogretmen/sinavlarim')
     return render(request,'ogretmen/dogrucevap.html',context)
 
