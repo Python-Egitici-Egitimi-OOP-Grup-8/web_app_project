@@ -4,6 +4,8 @@ from oturum.models import *
 from .forms import *
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
+from rest_framework.authtoken.models import Token
+
 
 def ogretmenIndex(request): #öğretmen ana sayfa viewi
     return render(request, 'ogretmen/ogretmenIndex.html')
@@ -138,6 +140,8 @@ def raporAl(request,pk):
     }
     return render(request,'ogretmen/rapor.html', context)
 
-def tokenAl(request,pk):
-    return render(request, 'ogretmen/tokenAl.html')
+def tokenAl(request):
+    token, created = Token.objects.get_or_create(user_id=request.user.id)
+    context = {'anahtar':token}
+    return render(request, 'ogretmen/tokenAl.html',context)
 
