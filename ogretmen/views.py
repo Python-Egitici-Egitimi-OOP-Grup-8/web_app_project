@@ -1,11 +1,11 @@
 from django.contrib.auth import update_session_auth_hash
-from django.shortcuts import render, redirect, get_object_or_404  
+from django.shortcuts import render, redirect, get_object_or_404
 from oturum.models import *
 from .forms import *
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
 from rest_framework.authtoken.models import Token
-
+import numpy as np
 
 def ogretmenIndex(request):
     return render(request, 'ogretmen/ogretmenIndex.html')
@@ -124,19 +124,54 @@ def cevaplariEkle(request,pk):
     return render(request,'ogretmen/dogrucevap.html',context)
 
 def raporAl(request,pk):
-    sinav = Sinav.objects.get(id=pk)
-    ogrcevaplar = OgrenciCevap.objects.get(sinav_id=sinav.id)
-    sorupuan = SoruPuanlama.objects.get(sinav_id=sinav.id)
-    kazanim = SoruKazanim.objects.get(sinav_id=sinav.id)
+    sorusayisi = Sinav.objects.get(id=pk).sorusayisi
+    sinav = Sinav.objects.filter(id=pk).values()
+    ogrcevaplar = OgrenciCevap.objects.filter(sinav_id=pk).values()
+    sorupuan = SoruPuanlama.objects.filter(sinav_id=pk).values()
+    raporList = []
+    rapor = [0,'cevap','anahtarı']
+    cevaplist=[]
+
+    for dcevap in sinav:
+        say = 1
+        while say <= sorusayisi:
+            rapor.append(dcevap[f'C{say}_id'])
+            cevaplist.append(dcevap[f'C{say}_id'])
+            say += 1
+        rapor.append(sorusayisi)
+        rapor.append(100)
+    raporList.append(rapor) # ilk satır olarak doğru cevaplar belirlenen id ile ekleniyor.
+
+    puanlist=[]
+    for puan in sorupuan:
+        say=1
+        while say<=sorusayisi:
+            puanlist.append(puan[f'P{say}'])
+            say += 1
+    # print(puanlist)
+
+    for ogr in ogrcevaplar:
+        puan = 0
+        dogru_sayisi = 0
+        ogrenci = User.objects.get(id=ogr['ogrenci_id'])
+        rapor = [ogrenci.id, ogrenci.first_name, ogrenci.last_name]
+        say=1
+        while say<=sorusayisi:
+            rapor.append(ogr[f'C{say}_id'])
+            if ogr[f'C{say}_id'] == cevaplist[say-1]:
+                dogru_sayisi += 1
+                puan += puanlist[say-1]
+            say += 1
+        rapor.append(dogru_sayisi)
+        rapor.append(puan)
+        raporList.append(rapor)
+    raporList = np.array(raporList)
+    # print(raporList)
     context={
-        'sinav_adi': sinav.baslik,
-        'tarih': sinav.olusturulmatarihi.date(),
-        'sorusayisi':sinav.sorusayisi,
-        'sinav_ort':0,
-        'en_yuksek_alan':0,
-        'en_dusuk_alan':0,
+        'rapor':raporList
     }
-    return render(request,'ogretmen/rapor.html', context)
+    kazanim = SoruKazanim.objects.get(sinav_id=pk)
+    return render(request,'ogretmen/rapor.html',context)
 
 def tokenAl(request):
     token, created = Token.objects.get_or_create(user_id=request.user.id) #varsa getir yoksa yeni token oluştur.
