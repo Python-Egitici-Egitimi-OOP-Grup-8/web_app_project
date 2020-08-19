@@ -1,8 +1,76 @@
 {% extends "oturum/base.html" %}
 {% block content %}
-    <br>
-    <br>
-    {% for i in rapor %}
-    <h5>{{ i }}</h5>
-    {% endfor %}
+<div class="row justify-content-center mt-7">
+        <div class="col-md text-center">
+            <div class="col-md-0">
+                <div class="card card-body">
+                    <h3>Rapor Deneme </h3>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>No</th>
+                            <th>Adı</th>
+                            <th>Soyadı</th>
+                            {% for i in sorusayilist%}
+                                <th>Soru {{ i }}</th>
+                            {% endfor %}
+                            <th>Doğru Sayısı</th>
+                            <th>Notu</th>
+                        </tr>
+                            {% for ogrenci in rapor %}
+                                <tr>
+                                {% for cell in ogrenci %}
+                                    {% if forloop.counter > 3 and forloop.counter <= sorusayisi %}
+                                        <td>
+                                        {% if cell == 'None' %}
+                                            BOŞ
+                                        {% elif cell == '1' %}
+                                            A
+                                        {% elif cell == '2' %}
+                                            B
+                                        {% elif cell == '3' %}
+                                            C
+                                        {% elif cell == '4' %}
+                                            D
+                                        {% elif cell == '5' %}
+                                            E
+                                        {% else %}
+                                            {{ cell }}
+                                        {% endif %}
+                                        </td>
+                                    {% else %}
+                                        <td>{{ cell }}</td>
+                                    {% endif %}
+                                {% endfor %}
+                                </tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+</div>
+    <div class="row justify-content-center mt-7">
+        <div class="col-md text-center">
+            <div class="col-md-0">
+                <div class="card card-body">
+                    <h3>Soru Analizi</h3>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Soru No</th>
+                            <th>Madde Güçlük İndeksi</th>
+                            <th>Doğru Cevaplayan Sayısı</th>
+                            <th>Yanlış Cevaplayan Sayısı</th>
+                            <th>Boş Bırakan Sayısı</th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content%}

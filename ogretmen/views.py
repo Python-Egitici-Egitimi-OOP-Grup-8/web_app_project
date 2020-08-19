@@ -124,6 +124,7 @@ def cevaplariEkle(request,pk):
     return render(request,'ogretmen/dogrucevap.html',context)
 
 def raporAl(request,pk):
+    kazanim = SoruKazanim.objects.filter(sinav_id=pk).values()
     sorusayisi = Sinav.objects.get(id=pk).sorusayisi
     sinav = Sinav.objects.filter(id=pk).values()
     ogrcevaplar = OgrenciCevap.objects.filter(sinav_id=pk).values()
@@ -166,11 +167,11 @@ def raporAl(request,pk):
         rapor.append(puan)
         raporList.append(rapor)
     raporList = np.array(raporList)
-    # print(raporList)
     context={
-        'rapor':raporList
+        'rapor': raporList,
+        'sorusayilist': range(1,sorusayisi+1),
+        'sorusayisi':sorusayisi+3,
     }
-    kazanim = SoruKazanim.objects.get(sinav_id=pk)
     return render(request,'ogretmen/rapor.html',context)
 
 def tokenAl(request):
