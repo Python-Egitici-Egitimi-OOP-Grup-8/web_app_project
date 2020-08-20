@@ -144,9 +144,10 @@ def raporAl(request,pk):
             cevaplist.append(dcevap[f'C{say}_id'])
             say += 1
         rapor.append(sorusayisi)
+        rapor.append(0)
         rapor.append(100)
-    raporList.append(rapor) # ilk satır olarak doğru cevaplar belirlenen id ile ekleniyor.
-
+    # raporList.append(rapor) # ilk satır olarak doğru cevaplar belirlenen id ile ekleniyor.
+    cevap_kagidi=rapor
     puanlist=[]
     for puan in sorupuan:
         say=1
@@ -174,13 +175,23 @@ def raporAl(request,pk):
                     yanlis_sayisi += 1
             say += 1
         rapor.append(dogru_sayisi)
+        rapor.append(yanlis_sayisi)
         rapor.append(puan)
         raporList.append(rapor)
     raporList = np.array(raporList)
+    print(raporList)
+    x = np.array(raporList[:, -1]).astype(np.int32)
     context={
+        'cevap_kagidi': cevap_kagidi,
         'rapor': raporList,
         'sorusayilist': range(1,sorusayisi+1),
         'sorusayisi':sorusayisi+3,
+        'max_not': x.max(),
+        'min_not': x.min(),
+        'ortalama': round(np.average(x),1),
+        'varyans': np.var(x),
+        'standart_sapma': round(np.std(x),1),
+        'ortanca_değer': np.median(x),
     }
     return render(request,'ogretmen/rapor.html',context)
 

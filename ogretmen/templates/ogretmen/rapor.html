@@ -4,7 +4,72 @@
         <div class="col-md text-center">
             <div class="col-md-0">
                 <div class="card card-body">
+                    <br>
                     <h3>Sınav Analizi </h3>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                                <div class="col-md">
+                                    <div class="card text-center text-black  mb-3" id="total-orders">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Sınav Ortalaması</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3 class="card-title">{{ ortalama }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-md">
+                                    <div class="card text-center text-black  mb-3" id="total-orders">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Medyan (Ortanca)</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3 class="card-title">{{ ortanca_değer }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-md">
+                                    <div class="card text-center text-black  mb-3" id="total-orders">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Standart Sapma</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3 class="card-title">{{ standart_sapma }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-md">
+                                    <div class="card text-center text-black  mb-3" id="orders-delivered">
+                                        <div class="card-header">
+                                            <h5 class="card-title">En Yüksek Not</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3 class="card-title">{{ max_not }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="col-md">
+                                    <div class="card text-center text-black  mb-3" id="orders-pending">
+                                        <div class="card-header">
+                                            <h5 class="card-title">En Düşük Not</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3 class="card-title">{{ min_not }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                     <table class="table table-sm">
                         <tr>
                             <th>No</th>
@@ -14,6 +79,7 @@
                                 <th>Soru {{ i }}</th>
                             {% endfor %}
                             <th>Doğru Sayısı</th>
+                            <th>Yanlış Sayısı</th>
                             <th>Notu</th>
                         </tr>
                             {% for ogrenci in rapor %}
@@ -48,29 +114,29 @@
             </div>
         </div>
 </div>
-    <div class="row justify-content-center mt-7">
-        <div class="col-md text-center">
-            <div class="col-md-0">
-                <div class="card card-body">
-                    <h3>Soru Analizi</h3>
-                    <table class="table table-sm">
-                        <tr>
-                            <th>Soru No</th>
-                            <th>Madde Güçlük İndeksi</th>
-                            <th>Doğru Cevaplayan Sayısı</th>
-                            <th>Yanlış Cevaplayan Sayısı</th>
-                            <th>Boş Bırakan Sayısı</th>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+{#    <div class="row justify-content-center mt-7">#}
+{#        <div class="col-md text-center">#}
+{#            <div class="col-md-0">#}
+{#                <div class="card card-body">#}
+{#                    <h3>Soru Analizi</h3>#}
+{#                    <table class="table table-sm">#}
+{#                        <tr>#}
+{#                            <th>Soru No</th>#}
+{#                            <th>Madde Güçlük İndeksi</th>#}
+{#                            <th>Doğru Cevaplayan Sayısı</th>#}
+{#                            <th>Yanlış Cevaplayan Sayısı</th>#}
+{#                            <th>Boş Bırakan Sayısı</th>#}
+{#                        </tr>#}
+{#                        <tr>#}
+{#                            <td></td>#}
+{#                            <td></td>#}
+{#                            <td></td>#}
+{#                            <td></td>#}
+{#                            <td></td>#}
+{#                        </tr>#}
+{#                    </table>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 {% endblock content%}
