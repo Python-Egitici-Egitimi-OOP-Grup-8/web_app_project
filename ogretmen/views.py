@@ -41,10 +41,12 @@ def soruKazanim(request,pk):
     return render(request,'ogretmen/kazanimlar.html',context)
 
 def soruPuan(request,pk):
+    sinav=Sinav.objects.get(id=pk)
     sorusay = Sinav.objects.get(id=pk).sorusayisi
     puan = SoruPuanlama.objects.get(sinav_id=pk) #Seçilen sınava ait puan değerleri getiriliyor.
     form = SoruPuanForm(instance = puan) #Kullanıcıya görüntülenmek üzere puan değerleri ile form örneği oluşturuluyor.
     context = {
+        'sinavbaslik':sinav.baslik,
         'form':form,
         'say':sorusay
     }
