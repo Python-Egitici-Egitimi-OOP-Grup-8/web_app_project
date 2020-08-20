@@ -29,6 +29,7 @@ def soruKazanim(request,pk):
     kazanim = SoruKazanim.objects.get(sinav_id=pk)
     form = KazanimSoru(instance=kazanim)
     context = {
+        'sinavbaslik':sinav.baslik,
         'form': form,
         'say': sinav.sorusayisi
     }
