@@ -113,6 +113,7 @@ def cevaplariEkle(request,pk):
     sinav = Sinav.objects.get(id=pk) #seçilen id değerine sahip sınav bilgileri getiriliyor.
     form = CevapEkle(instance=sinav) #üzerinde işlem yapılacak sınav örneği için doğru cevap ekleme/değiştirme formu oluşturuluyor. Varsa değerler getiriliyor.
     context = {
+        'sinavbaslik':sinav.baslik,
         'form': form,
         'sorusay': sinav.sorusayisi,
     }
