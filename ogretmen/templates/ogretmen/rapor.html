@@ -82,7 +82,14 @@
                             <th>Yanlış Sayısı</th>
                             <th>Notu</th>
                         </tr>
-                            {% for ogrenci in rapor %}
+                        <tr>
+                            {% for cell in cevap_kagidi %}
+                                <td>
+                                    {{ cell }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                            {% for ogrenci in sinav_rapor %}
                                 <tr>
                                 {% for cell in ogrenci %}
                                     {% if forloop.counter > 3 and forloop.counter <= sorusayisi %}
@@ -114,29 +121,35 @@
             </div>
         </div>
 </div>
-{#    <div class="row justify-content-center mt-7">#}
-{#        <div class="col-md text-center">#}
-{#            <div class="col-md-0">#}
-{#                <div class="card card-body">#}
-{#                    <h3>Soru Analizi</h3>#}
-{#                    <table class="table table-sm">#}
-{#                        <tr>#}
-{#                            <th>Soru No</th>#}
-{#                            <th>Madde Güçlük İndeksi</th>#}
-{#                            <th>Doğru Cevaplayan Sayısı</th>#}
-{#                            <th>Yanlış Cevaplayan Sayısı</th>#}
-{#                            <th>Boş Bırakan Sayısı</th>#}
-{#                        </tr>#}
-{#                        <tr>#}
-{#                            <td></td>#}
-{#                            <td></td>#}
-{#                            <td></td>#}
-{#                            <td></td>#}
-{#                            <td></td>#}
-{#                        </tr>#}
-{#                    </table>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+    <div class="row justify-content-center mt-7">
+        <div class="col-md text-center">
+            <div class="col-md-0">
+                <div class="card card-body">
+                    <h3>Soru Analizi</h3>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Soru No</th>
+                            <th>Soru Kazanım</th>
+                            <th>Madde Güçlük İndeksi</th>
+                            <th>Doğru Cevaplayan Sayısı</th>
+                            <th>Yanlış Cevaplayan Sayısı</th>
+                            <th>Boş Bırakan Sayısı</th>
+                        </tr>
+                        {% for no,kazanim,gucluk,dogru,yanlis,bos in soru_rapor %}
+                            <tr>
+
+                                    <td>{{ no }}</td>
+                                    <td>{{ kazanim }}</td>
+                                    <td>{{ gucluk }}</td>
+                                    <td>{{ dogru }}</td>
+                                    <td>{{ yanlis }}</td>
+                                    <td>{{ bos }}</td>
+
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content%}

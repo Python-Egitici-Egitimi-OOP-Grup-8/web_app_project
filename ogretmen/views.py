@@ -128,34 +128,55 @@ def cevaplariEkle(request,pk):
     return render(request,'ogretmen/dogrucevap.html',context)
 
 def raporAl(request,pk):
-    kazanim = SoruKazanim.objects.filter(sinav_id=pk).values()
+    kazanimlar = SoruKazanim.objects.filter(sinav_id=pk).values()
     sorusayisi = Sinav.objects.get(id=pk).sorusayisi
+    kazanimList = []
+    for id in kazanimlar:
+        say = 1
+        while say <= sorusayisi:
+            kazanimList.append(Kazanim.objects.get(id=id[f'K{say}_id']).kazanimadi)
+            say += 1
     sinav = Sinav.objects.filter(id=pk).values()
-    ogrcevaplar = OgrenciCevap.objects.filter(sinav_id=pk).values()
+    ogrenciler = OgrenciCevap.objects.filter(sinav_id=pk)
+    ogrcevaplar = ogrenciler.values()
+    sinav_ogrenci_say = ogrenciler.count()
     sorupuan = SoruPuanlama.objects.filter(sinav_id=pk).values()
     raporList = []
-    rapor = [0,'cevap','anahtarı']
+    cevap_kagidi = [0,'cevap','anahtarı']
     cevaplist=[]
 
     for dcevap in sinav:
         say = 1
         while say <= sorusayisi:
-            rapor.append(dcevap[f'C{say}_id'])
+            if dcevap[f'C{say}_id']==1:
+                cevap_kagidi.append('A')
+            elif dcevap[f'C{say}_id']==2:
+                cevap_kagidi.append('B')
+            elif dcevap[f'C{say}_id']==3:
+                cevap_kagidi.append('C')
+            elif dcevap[f'C{say}_id'] == 4:
+                cevap_kagidi.append('D')
+            elif dcevap[f'C{say}_id'] == 5:
+                cevap_kagidi.append('E')
+            else:
+                cevap_kagidi.append('girilmemiş')
             cevaplist.append(dcevap[f'C{say}_id'])
             say += 1
-        rapor.append(sorusayisi)
-        rapor.append(0)
-        rapor.append(100)
-    # raporList.append(rapor) # ilk satır olarak doğru cevaplar belirlenen id ile ekleniyor.
-    cevap_kagidi=rapor
+        cevap_kagidi.append(sorusayisi)
+        cevap_kagidi.append(0)
+        cevap_kagidi.append(100)
+
     puanlist=[]
     for puan in sorupuan:
         say=1
-        while say<=sorusayisi:
+        while say <= sorusayisi:
             puanlist.append(puan[f'P{say}'])
             say += 1
     # print(puanlist)
-
+    soru_no=[i for i in range(1,sorusayisi+1)]
+    madde_gucluk = [0 for i in range(sorusayisi)]
+    soru_yanlis_say = [0 for i in range(sorusayisi)]
+    soru_bos_say = [0 for i in range(sorusayisi)]
     for ogr in ogrcevaplar:
         puan = 0
         dogru_sayisi = 0
@@ -166,24 +187,33 @@ def raporAl(request,pk):
         while say<=sorusayisi:
             if ogr[f'C{say}_id'] is None:
                 rapor.append(0)
+                soru_bos_say[say-1] += 1
             else:
                 rapor.append(ogr[f'C{say}_id'])
                 if ogr[f'C{say}_id'] == cevaplist[say-1]:
                     dogru_sayisi += 1
                     puan += puanlist[say-1]
+                    madde_gucluk[say-1] += 1
                 else:
                     yanlis_sayisi += 1
+                    soru_yanlis_say[say-1] += 1
             say += 1
         rapor.append(dogru_sayisi)
         rapor.append(yanlis_sayisi)
         rapor.append(puan)
         raporList.append(rapor)
     raporList = np.array(raporList)
-    print(raporList)
+    dogru_cevap_say = madde_gucluk.copy()
+    say =1
+    while say<=sorusayisi:
+        madde_gucluk[say - 1] /= sinav_ogrenci_say
+        say+=1
+    zipped_soru_analiz = zip(soru_no, kazanimList, madde_gucluk, dogru_cevap_say, soru_yanlis_say, soru_bos_say)
     x = np.array(raporList[:, -1]).astype(np.int32)
     context={
         'cevap_kagidi': cevap_kagidi,
-        'rapor': raporList,
+        'sinav_rapor': raporList,
+        'soru_rapor':zipped_soru_analiz,
         'sorusayilist': range(1,sorusayisi+1),
         'sorusayisi':sorusayisi+3,
         'max_not': x.max(),
@@ -192,6 +222,8 @@ def raporAl(request,pk):
         'varyans': np.var(x),
         'standart_sapma': round(np.std(x),1),
         'ortanca_değer': np.median(x),
+        'basarili_sayisi':0,
+
     }
     return render(request,'ogretmen/rapor.html',context)
 
