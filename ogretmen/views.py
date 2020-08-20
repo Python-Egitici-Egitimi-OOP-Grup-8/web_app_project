@@ -1,3 +1,7 @@
+import base64
+import io
+import urllib
+
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect, get_object_or_404
 from oturum.models import *
@@ -5,6 +9,8 @@ from .forms import *
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
 from rest_framework.authtoken.models import Token
+import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
 
 def ogretmenIndex(request):
@@ -138,6 +144,7 @@ def raporAl(request,pk):
             say += 1
     sinav = Sinav.objects.filter(id=pk).values()
     ogrenciler = OgrenciCevap.objects.filter(sinav_id=pk)
+    ogrenci_sayisi=ogrenciler.count()
     ogrcevaplar = ogrenciler.values()
     sinav_ogrenci_say = ogrenciler.count()
     sorupuan = SoruPuanlama.objects.filter(sinav_id=pk).values()
@@ -177,6 +184,7 @@ def raporAl(request,pk):
     madde_gucluk = [0 for i in range(sorusayisi)]
     soru_yanlis_say = [0 for i in range(sorusayisi)]
     soru_bos_say = [0 for i in range(sorusayisi)]
+    basarili_ogrenci = 0
     for ogr in ogrcevaplar:
         puan = 0
         dogru_sayisi = 0
@@ -198,6 +206,8 @@ def raporAl(request,pk):
                     yanlis_sayisi += 1
                     soru_yanlis_say[say-1] += 1
             say += 1
+        if(puan>50):
+            basarili_ogrenci +=1
         rapor.append(dogru_sayisi)
         rapor.append(yanlis_sayisi)
         rapor.append(puan)
@@ -210,6 +220,19 @@ def raporAl(request,pk):
         say+=1
     zipped_soru_analiz = zip(soru_no, kazanimList, madde_gucluk, dogru_cevap_say, soru_yanlis_say, soru_bos_say)
     x = np.array(raporList[:, -1]).astype(np.int32)
+    fig = plt.figure()
+    fig.suptitle('Sınav Başarı', fontsize=14, fontweight='bold')
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.axis('equal')
+    etiketler = ['Başarılı', 'Başarısız']
+    ogrenciler = [basarili_ogrenci, ogrenci_sayisi-basarili_ogrenci]
+    ax.pie(ogrenciler, labels=etiketler, autopct='%1.2f%%')
+    fig = plt.gcf()
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    resim_grafik = urllib.parse.quote(string)
     context={
         'cevap_kagidi': cevap_kagidi,
         'sinav_rapor': raporList,
@@ -222,8 +245,10 @@ def raporAl(request,pk):
         'varyans': np.var(x),
         'standart_sapma': round(np.std(x),1),
         'ortanca_değer': np.median(x),
-        'basarili_sayisi':0,
-
+        'basarili_sayisi': basarili_ogrenci,
+        'ogrenci_sayisi':ogrenci_sayisi,
+        'basarisiz_sayisi':ogrenci_sayisi-basarili_ogrenci,
+        'basari_grafik': resim_grafik,
     }
     return render(request,'ogretmen/rapor.html',context)
 
