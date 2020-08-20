@@ -158,14 +158,20 @@ def raporAl(request,pk):
     for ogr in ogrcevaplar:
         puan = 0
         dogru_sayisi = 0
+        yanlis_sayisi = 0
         ogrenci = User.objects.get(id=ogr['ogrenci_id'])
         rapor = [ogrenci.id, ogrenci.first_name, ogrenci.last_name]
         say=1
         while say<=sorusayisi:
-            rapor.append(ogr[f'C{say}_id'])
-            if ogr[f'C{say}_id'] == cevaplist[say-1]:
-                dogru_sayisi += 1
-                puan += puanlist[say-1]
+            if ogr[f'C{say}_id'] is None:
+                rapor.append(0)
+            else:
+                rapor.append(ogr[f'C{say}_id'])
+                if ogr[f'C{say}_id'] == cevaplist[say-1]:
+                    dogru_sayisi += 1
+                    puan += puanlist[say-1]
+                else:
+                    yanlis_sayisi += 1
             say += 1
         rapor.append(dogru_sayisi)
         rapor.append(puan)
