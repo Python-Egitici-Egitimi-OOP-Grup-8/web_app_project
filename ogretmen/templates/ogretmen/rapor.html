@@ -4,7 +4,7 @@
         <div class="col-md text-center">
             <div class="col-md-0">
                 <div class="card card-body">
-                    <h3>Rapor Deneme </h3>
+                    <h3>Sınav Analizi </h3>
                     <table class="table table-sm">
                         <tr>
                             <th>No</th>
@@ -21,7 +21,7 @@
                                 {% for cell in ogrenci %}
                                     {% if forloop.counter > 3 and forloop.counter <= sorusayisi %}
                                         <td>
-                                        {% if cell == 'None' %}
+                                        {% if cell is None %}
                                             BOŞ
                                         {% elif cell == '1' %}
                                             A
@@ -63,10 +63,10 @@
                         </tr>
                         <tr>
                             <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </table>
                 </div>
