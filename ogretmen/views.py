@@ -33,17 +33,9 @@ def sinavlarim(request):
 def soruKazanim(request,pk):
     sinav = Sinav.objects.get(id=pk)
     kazanim = SoruKazanim.objects.get(sinav_id=pk)
-    # kazanim2 = Kazanim.objects.filter(ders_id=sinav.ders_id).values('kazanimadi')
-    # kazanimlar={}
-    # say=1
-    # for i in kazanim2:
-    #     for k in i:
-    #         kazanimlar[f'K{say}_id']=i[k]
-    #     say+=1
-    # print(kazanimlar)
-    form = KazanimSoru(sorusay=sinav.sorusayisi,instance=kazanim,id=sinav.ders_id)
+    form = KazanimSoru(instance=kazanim)
     context = {
-        'sinavbaslik': sinav.baslik,
+        'sinavbaslik':sinav.baslik,
         'form': form,
         'say': sinav.sorusayisi
     }
