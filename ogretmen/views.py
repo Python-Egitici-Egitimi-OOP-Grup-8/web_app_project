@@ -32,7 +32,7 @@ def sinavlarim(request):
 
 def soruKazanim(request,pk):
     sinav = Sinav.objects.get(id=pk)
-    kazanim = SoruKazanim.objects.get(sinav_id=pk)
+    kazanim = SoruKazanim.objects.get(ders_id=pk)
     form = KazanimSoru(instance=kazanim)
     context = {
         'sinavbaslik':sinav.baslik,
@@ -149,7 +149,7 @@ def raporAl(request,pk):
     sinav_ogrenci_say = ogrenciler.count()
     sorupuan = SoruPuanlama.objects.filter(sinav_id=pk).values()
     raporList = []
-    cevap_kagidi = [0,'cevap','anahtarı']
+    cevap_kagidi = [0,request.user.first_name,request.user.last_name]
     cevaplist=[]
 
     for dcevap in sinav:
@@ -221,7 +221,6 @@ def raporAl(request,pk):
     zipped_soru_analiz = zip(soru_no, kazanimList, madde_gucluk, dogru_cevap_say, soru_yanlis_say, soru_bos_say)
     x = np.array(raporList[:, -1]).astype(np.int32)
     fig = plt.figure()
-    fig.suptitle('Sınav Başarı', fontsize=14, fontweight='bold')
     ax = fig.add_axes([0, 0, 1, 1])
     ax.axis('equal')
     etiketler = ['Başarılı', 'Başarısız']
@@ -233,6 +232,17 @@ def raporAl(request,pk):
     buf.seek(0)
     string = base64.b64encode(buf.read())
     resim_grafik = urllib.parse.quote(string)
+
+    fig = plt.figure()
+    plt.bar(soru_no,madde_gucluk,width=0.4)
+    plt.xlabel('Sorular')
+    plt.ylabel('Güçlük İndeksi')
+    fig = plt.gcf()
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    gucluk_grafik = urllib.parse.quote(string)
     context={
         'cevap_kagidi': cevap_kagidi,
         'sinav_rapor': raporList,
@@ -249,6 +259,7 @@ def raporAl(request,pk):
         'ogrenci_sayisi':ogrenci_sayisi,
         'basarisiz_sayisi':ogrenci_sayisi-basarili_ogrenci,
         'basari_grafik': resim_grafik,
+        'gucluk_grafik': gucluk_grafik,
     }
     return render(request,'ogretmen/rapor.html',context)
 

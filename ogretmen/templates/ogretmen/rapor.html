@@ -109,7 +109,7 @@
                             <th>Notu</th>
                         </tr>
                         </thead>
-                        <tr class="active">
+                        <tr class="bg-success">
                             {% for cell in cevap_kagidi %}
                                 <td>
                                     {{ cell }}
@@ -182,6 +182,9 @@
             <div class="col-md-0">
                 <div class="card text-center text-black  mb-3" id="">
                     <div class="card-body">
+                        <p>
+                            Sınav Başarı
+                        </p>
                         <img src="data:image/png;base64,{{ basari_grafik }}" alt="" height="300">
                     </div>
                 </div>
@@ -191,7 +194,10 @@
             <div class="col-md-0">
                 <div class="card text-center text-black  mb-3" id="">
                     <div class="card-body">
-                        <img src="data:image/png;base64,{{ basari_grafik }}" alt="" height="300">
+                        <p>
+                            Madde Güçlük İndeksleri
+                        </p>
+                        <img src="data:image/png;base64,{{ gucluk_grafik }}" alt="" height="300">
                     </div>
                 </div>
             </div>
