@@ -33,18 +33,20 @@ def sinavlarim(request):
 def soruKazanim(request,pk):
     sinav = Sinav.objects.get(id=pk)
     kazanim = SoruKazanim.objects.get(sinav_id=pk)
-    form = KazanimSoru(instance=kazanim)
+    dersId=sinav.ders
+   # print(kazanim.__dict__)
+    form = KazanimSoru(instance=kazanim,dersid=dersId)
     context = {
         'sinavbaslik': sinav.baslik,
         'form': form,
         'say': sinav.sorusayisi,
     }
     if request.method == 'POST':
-        form = KazanimSoru(request.POST,instance=kazanim)
+        form = KazanimSoru(request.POST,instance=kazanim,dersid=dersId)
         print(request.POST)
-        if form.is_valid():
-            form.save(commit=True)
-            return redirect('/ogretmen/sinavlarim')
+        #if form.is_valid():
+        form.save(commit=True)
+        return redirect('/ogretmen/sinavlarim')
     return render(request,'ogretmen/kazanimlar.html',context)
 
 def soruPuan(request,pk):

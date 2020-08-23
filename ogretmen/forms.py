@@ -12,7 +12,16 @@ class SoruPuanForm(ModelForm):
 class KazanimSoru(ModelForm):
     class Meta:
         model = SoruKazanim
-        exclude = ['sinav']
+        fieldTemp=secenekListe('K')
+        fields=fieldTemp
+      
+    def __init__(self, *args, **kwargs):
+        dersid = kwargs.pop('dersid')
+        super(KazanimSoru,self).__init__(*args, **kwargs)
+        for secenek in secenekListe('K'):
+            self.fields[secenek].queryset = Kazanim.objects.filter(ders=dersid.id)
+       
+        
 
 class Profilim(ModelForm):
     class Meta:
