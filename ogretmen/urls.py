@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from .views import PDFOlustur
 urlpatterns = [
     path('',views.ogretmenIndex, name='ogretmen'),
     path('sinavlarim',views.sinavlarim, name='sinavlarim'),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('paroladegis', views.parolaDegistir, name='paroladegis'),
     path('profilguncelle', views.updateProfil, name='profilguncelle'),
     path('sinavekle', views.sinavEkle, name='sinavekle'),
+    path('pdfal/<str:pk>', PDFOlustur.as_view(), name='pdfal')
 ]
