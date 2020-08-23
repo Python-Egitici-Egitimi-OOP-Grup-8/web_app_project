@@ -44,9 +44,9 @@ def soruKazanim(request,pk):
     if request.method == 'POST':
         form = KazanimSoru(request.POST,instance=kazanim,dersid=dersId)
         print(request.POST)
-        #if form.is_valid():
-        form.save(commit=True)
-        return redirect('/ogretmen/sinavlarim')
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('/ogretmen/sinavlarim')
     return render(request,'ogretmen/kazanimlar.html',context)
 
 def soruPuan(request,pk):
