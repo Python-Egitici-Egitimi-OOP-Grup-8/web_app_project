@@ -40,7 +40,7 @@ class Sinav(models.Model):
         return self.baslik+"  "+str(self.olusturulmatarihi)
 
 class SoruPuanlama(models.Model):
-    sinav =models.ForeignKey(Sinav, on_delete=models.CASCADE)
+    sinav = models.OneToOneField(Sinav,on_delete=models.CASCADE)
     for secenek in secenekListe('P'):
         locals()[secenek] = models.IntegerField(blank=True,null=True)
     
@@ -48,7 +48,7 @@ class SoruPuanlama(models.Model):
         return self.sinav.baslik+"  "+str(self.sinav.olusturulmatarihi)        
 
 class SoruKazanim(models.Model):
-    sinav = models.ForeignKey(Sinav, on_delete=models.CASCADE)
+    sinav = models.OneToOneField(Sinav, on_delete=models.CASCADE)
     for secenek in secenekListe('K'):
          locals()[secenek] = models.ForeignKey(Kazanim, related_name=secenek,on_delete=models.CASCADE,blank=True,null=True)
     

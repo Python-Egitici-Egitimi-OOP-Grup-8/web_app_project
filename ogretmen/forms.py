@@ -13,7 +13,7 @@ class KazanimSoru(ModelForm):
     class Meta:
         model = SoruKazanim
         exclude = ['sinav']
-        
+
 class Profilim(ModelForm):
     class Meta:
         model = User

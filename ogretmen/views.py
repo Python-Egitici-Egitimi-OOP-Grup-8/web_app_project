@@ -35,14 +35,15 @@ def soruKazanim(request,pk):
     kazanim = SoruKazanim.objects.get(sinav_id=pk)
     form = KazanimSoru(instance=kazanim)
     context = {
-        'sinavbaslik':sinav.baslik,
+        'sinavbaslik': sinav.baslik,
         'form': form,
-        'say': sinav.sorusayisi
+        'say': sinav.sorusayisi,
     }
-    if request.method == 'POST': #sayfaya form üzerinden gelinmişse.
-        form = KazanimSoru(request.POST, instance=kazanim)
+    if request.method == 'POST':
+        form = KazanimSoru(request.POST,instance=kazanim)
+        print(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(commit=True)
             return redirect('/ogretmen/sinavlarim')
     return render(request,'ogretmen/kazanimlar.html',context)
 
@@ -134,92 +135,96 @@ def cevaplariEkle(request,pk):
     return render(request,'ogretmen/dogrucevap.html',context)
 
 def raporAl(request,pk):
-    kazanimlar = SoruKazanim.objects.filter(sinav_id=pk).values()
-    sorusayisi = Sinav.objects.get(id=pk).sorusayisi
-    kazanimList = []
-    for id in kazanimlar:
-        say = 1
-        while say <= sorusayisi:
-            kazanimList.append(Kazanim.objects.get(id=id[f'K{say}_id']).kazanimadi)
-            say += 1
-    sinav = Sinav.objects.filter(id=pk).values()
-    ogrenciler = OgrenciCevap.objects.filter(sinav_id=pk)
-    ogrenci_sayisi=ogrenciler.count()
-    ogrcevaplar = ogrenciler.values()
-    sinav_ogrenci_say = ogrenciler.count()
-    sorupuan = SoruPuanlama.objects.filter(sinav_id=pk).values()
-    raporList = []
-    cevap_kagidi = [0,request.user.first_name,request.user.last_name]
-    cevaplist=[]
+    try:
+        kazanimlar = SoruKazanim.objects.filter(sinav_id=pk).values()
+        sorusayisi = Sinav.objects.get(id=pk).sorusayisi
+        kazanimList = []
+        for id in kazanimlar:
+            say = 1
+            while say <= sorusayisi:
+                kazanimList.append(Kazanim.objects.get(id=id[f'K{say}_id']).kazanimadi)
+                say += 1
+        sinav = Sinav.objects.filter(id=pk).values()
+        ogrenciler = OgrenciCevap.objects.filter(sinav_id=pk)
+        ogrenci_sayisi=ogrenciler.count()
+        ogrcevaplar = ogrenciler.values()
+        sinav_ogrenci_say = ogrenciler.count()
+        sorupuan = SoruPuanlama.objects.filter(sinav_id=pk).values()
+        raporList = []
+        cevap_kagidi = [0,request.user.first_name,request.user.last_name]
+        cevaplist=[]
 
-    for dcevap in sinav:
-        say = 1
-        while say <= sorusayisi:
-            if dcevap[f'C{say}_id']==1:
-                cevap_kagidi.append('A')
-            elif dcevap[f'C{say}_id']==2:
-                cevap_kagidi.append('B')
-            elif dcevap[f'C{say}_id']==3:
-                cevap_kagidi.append('C')
-            elif dcevap[f'C{say}_id'] == 4:
-                cevap_kagidi.append('D')
-            elif dcevap[f'C{say}_id'] == 5:
-                cevap_kagidi.append('E')
-            else:
-                cevap_kagidi.append('girilmemiş')
-            cevaplist.append(dcevap[f'C{say}_id'])
-            say += 1
-        cevap_kagidi.append(sorusayisi)
-        cevap_kagidi.append(0)
-        cevap_kagidi.append(100)
-
-    puanlist=[]
-    for puan in sorupuan:
-        say=1
-        while say <= sorusayisi:
-            puanlist.append(puan[f'P{say}'])
-            say += 1
-    # print(puanlist)
-    soru_no=[i for i in range(1,sorusayisi+1)]
-    madde_gucluk = [0 for i in range(sorusayisi)]
-    soru_yanlis_say = [0 for i in range(sorusayisi)]
-    soru_bos_say = [0 for i in range(sorusayisi)]
-    basarili_ogrenci = 0
-    for ogr in ogrcevaplar:
-        puan = 0
-        dogru_sayisi = 0
-        yanlis_sayisi = 0
-        ogrenci = User.objects.get(id=ogr['ogrenci_id'])
-        rapor = [ogrenci.id, ogrenci.first_name, ogrenci.last_name]
-        say=1
-        while say<=sorusayisi:
-            if ogr[f'C{say}_id'] is None:
-                rapor.append(0)
-                soru_bos_say[say-1] += 1
-            else:
-                rapor.append(ogr[f'C{say}_id'])
-                if ogr[f'C{say}_id'] == cevaplist[say-1]:
-                    dogru_sayisi += 1
-                    puan += puanlist[say-1]
-                    madde_gucluk[say-1] += 1
+        for dcevap in sinav:
+            say = 1
+            while say <= sorusayisi:
+                if dcevap[f'C{say}_id']==1:
+                    cevap_kagidi.append('A')
+                elif dcevap[f'C{say}_id']==2:
+                    cevap_kagidi.append('B')
+                elif dcevap[f'C{say}_id']==3:
+                    cevap_kagidi.append('C')
+                elif dcevap[f'C{say}_id'] == 4:
+                    cevap_kagidi.append('D')
+                elif dcevap[f'C{say}_id'] == 5:
+                    cevap_kagidi.append('E')
                 else:
-                    yanlis_sayisi += 1
-                    soru_yanlis_say[say-1] += 1
-            say += 1
-        if(puan>50):
-            basarili_ogrenci +=1
-        rapor.append(dogru_sayisi)
-        rapor.append(yanlis_sayisi)
-        rapor.append(puan)
-        raporList.append(rapor)
-    raporList = np.array(raporList)
-    dogru_cevap_say = madde_gucluk.copy()
-    say =1
-    while say<=sorusayisi:
-        madde_gucluk[say - 1] /= sinav_ogrenci_say
-        say+=1
-    zipped_soru_analiz = zip(soru_no, kazanimList, madde_gucluk, dogru_cevap_say, soru_yanlis_say, soru_bos_say)
-    x = np.array(raporList[:, -1]).astype(np.int32)
+                    cevap_kagidi.append('girilmemiş')
+                cevaplist.append(dcevap[f'C{say}_id'])
+                say += 1
+            cevap_kagidi.append(sorusayisi)
+            cevap_kagidi.append(0)
+            cevap_kagidi.append(100)
+
+        puanlist=[]
+        for puan in sorupuan:
+            say=1
+            while say <= sorusayisi:
+                puanlist.append(puan[f'P{say}'])
+                say += 1
+        # print(puanlist)
+        soru_no=[i for i in range(1,sorusayisi+1)]
+        madde_gucluk = [0 for i in range(sorusayisi)]
+        soru_yanlis_say = [0 for i in range(sorusayisi)]
+        soru_bos_say = [0 for i in range(sorusayisi)]
+        basarili_ogrenci = 0
+        for ogr in ogrcevaplar:
+            puan = 0
+            dogru_sayisi = 0
+            yanlis_sayisi = 0
+            ogrenci = User.objects.get(id=ogr['ogrenci_id'])
+            rapor = [ogrenci.id, ogrenci.first_name, ogrenci.last_name]
+            say=1
+            while say<=sorusayisi:
+                if ogr[f'C{say}_id'] is None:
+                    rapor.append(0)
+                    soru_bos_say[say-1] += 1
+                else:
+                    rapor.append(ogr[f'C{say}_id'])
+                    if ogr[f'C{say}_id'] == cevaplist[say-1]:
+                        dogru_sayisi += 1
+                        puan += puanlist[say-1]
+                        madde_gucluk[say-1] += 1
+                    else:
+                        yanlis_sayisi += 1
+                        soru_yanlis_say[say-1] += 1
+                say += 1
+            if(puan>50):
+                basarili_ogrenci +=1
+            rapor.append(dogru_sayisi)
+            rapor.append(yanlis_sayisi)
+            rapor.append(puan)
+            raporList.append(rapor)
+        raporList = np.array(raporList)
+        dogru_cevap_say = madde_gucluk.copy()
+        say =1
+        while say<=sorusayisi:
+            madde_gucluk[say - 1] /= sinav_ogrenci_say
+            say+=1
+        zipped_soru_analiz = zip(soru_no, kazanimList, madde_gucluk, dogru_cevap_say, soru_yanlis_say, soru_bos_say)
+        x = np.array(raporList[:, -1]).astype(np.int32)
+    except Exception as e:
+        print(e)
+        return render(request,'ogretmen/rapor.html', {'hata':True})
     fig = plt.figure()
     ax = fig.add_axes([0, 0, 1, 1])
     ax.axis('equal')
