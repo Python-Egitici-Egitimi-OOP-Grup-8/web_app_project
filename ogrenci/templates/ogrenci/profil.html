@@ -1,0 +1,16 @@
+{% extends "oturum/base.html" %}
+{% block content %}
+<br><br><br>
+<div class="row justify-content-center mt-5">
+	<div class="col-md-5">
+        <h2>Profilim</h2>
+		<div class="card card-body">
+            <p>Adı : {{ adi }}</p>
+            <p>Soyadı : {{ soyadi }}</p>
+            <p>email: {{ email }}</p>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'profilguncelle' %}">Bilgilerimi Güncelle</a>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'paroladegis' %}">Parola Değiştir</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

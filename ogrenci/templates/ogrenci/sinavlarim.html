@@ -1,0 +1,42 @@
+{% extends "oturum/base.html" %}
+{% block content %}
+<br>
+<div class="row justify-content-center mt-7">
+        <div class="col-md text-center">
+            <div class="col-md-0">
+                <div class="card card-body">
+                    {% if not bosMu %}
+                    <h3>Sınavlarım</h3>
+                    {% endif %}
+                    <table class="table table-sm">
+                    {% if not bosMu %}
+                        <tr>
+                            <th>Sınav Kodu</th>
+                            <th>Oluşturulma</th>
+                            <th>Sınav Adı</th>
+                            <th>Doğru Cevap</th>
+                            <th>Puan</th>
+                            <th>Analiz Raporu</th>
+                            
+                        </tr>
+                        {% for sinav in sinavlar %}
+                        <tr>
+                            <td>{{ sinav.id }}</td>
+                            <td>{{ sinav.olusturulmatarihi.date }}</td>
+                            <td>{{ sinav.baslik }}</td>
+                                                      
+                            
+                            <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>
+                            
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <h4>Üzerinizde tanımlı sınav sınav bulunmamaktadır. Lütfen sınav ekleyiniz!</h4>
+                    {% endif %}
+                    </table>
+                </div>
+            <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'sinavekle' %}">Sınav Ekle</a>
+            </div>
+        </div>
+    </div>
+{% endblock content%}

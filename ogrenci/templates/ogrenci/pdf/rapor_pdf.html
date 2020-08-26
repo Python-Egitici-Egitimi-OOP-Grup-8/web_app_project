@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{sinav_baslik}}</title>
+    <meta charset="UTF-8">
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {background-color: #f2f2f2;}
+    </style>
+</head>
+<body>
+<h3>Sınav Analizi </h3>
+<div>
+    <table>
+        <tr>
+            <th>Toplam Öğrenci</th>
+            <th>Başarılı Öğrenci</th>
+            <th>Sınav Ortalaması</th>
+            <th>Medyan (Ortanca)</th>
+            <th>Standart Sapma</th>
+            <th>En Yüksek Not</th>
+            <th>En Düşük Not</th>
+        </tr>
+        <tr>
+            <td>{{ ogrenci_sayisi }}</td>
+            <td>{{ basarili_sayisi }}</td>
+            <td>{{ ortalama }}</td>
+            <td>{{ ortanca_değer }}</td>
+            <td>{{ standart_sapma }}</td>
+            <td>{{ max_not }}</td>
+            <td>{{ min_not }}</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>Adı</th>
+            <th>Soyadı</th>
+            {% for i in sorusayilist%}
+                <th>Soru {{ i }}</th>
+            {% endfor %}
+            <th>Doğru Sayısı</th>
+            <th>Yanlış Sayısı</th>
+            <th>Notu</th>
+        </tr>
+        </thead>
+        <tr>
+            {% for cell in cevap_kagidi %}
+                <td>
+                    {{ cell }}
+                </td>
+            {% endfor %}
+        </tr>
+                                                {% for ogrenci in sinav_rapor %}
+                                                    <tr>
+                                                    {% for cell in ogrenci %}
+                                                        {% if forloop.counter > 3 and forloop.counter <= sorusayisi %}
+                                                            <td>
+                                                            {% if cell == '0'%}
+                                                                BOŞ
+                                                            {% elif cell == '1' %}
+                                                                A
+                                                            {% elif cell == '2' %}
+                                                                B
+                                                            {% elif cell == '3' %}
+                                                                C
+                                                            {% elif cell == '4' %}
+                                                                D
+                                                            {% elif cell == '5' %}
+                                                                E
+                                                            {% else %}
+                                                                {{ cell }}
+                                                            {% endif %}
+                                                            </td>
+                                                        {% else %}
+                                                            <td>{{ cell }}</td>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    </tr>
+                                                {% endfor %}
+                                        </table>
+                                    </div>
+
+
+                <div class="row justify-content-center mt-7">
+                    <div class="col-md text-center">
+                            <div class="col-md-0">
+                                <div class="card card-body">
+                                    <h3>Soru Analizi</h3>
+                                    <table class="table table-sm table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Soru No</th>
+                                            <th>Soru Kazanım</th>
+                                            <th>Madde Güçlük İndeksi</th>
+                                            <th>Doğru Cevaplayan Sayısı</th>
+                                            <th>Yanlış Cevaplayan Sayısı</th>
+                                            <th>Boş Bırakan Sayısı</th>
+                                        </tr>
+                                    </thead>
+                                        {% for no,kazanim,gucluk,dogru,yanlis,bos in soru_rapor %}
+                                            <tr>
+                                                <td>{{ no }}</td>
+                                                <td>{{ kazanim }}</td>
+                                                <td>{{ gucluk }}</td>
+                                                <td>{{ dogru }}</td>
+                                                <td>{{ yanlis }}</td>
+                                                <td>{{ bos }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="col-md-0">
+                                    <div class="card text-center text-black  mb-3" id="">
+                                        <div class="card-body">
+                                            <p>
+                                                Sınav Başarı
+                                            </p>
+                                            <img src="data:image/png;base64,{{ basari_grafik }}" alt="" height="300">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-md-0">
+                                    <div class="card text-center text-black  mb-3" id="">
+                                        <div class="card-body">
+                                            <p>
+                                                Madde Güçlük İndeksleri
+                                            </p>
+                                            <img src="data:image/png;base64,{{ gucluk_grafik }}" alt="" height="300">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</body>
+</html>
+
