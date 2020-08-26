@@ -4,7 +4,9 @@ import urllib
 
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.template import Context
+from wkhtmltopdf.views import PDFTemplateView, PDFTemplateResponse
+from xhtml2pdf import pisa
 
 from oturum.models import *
 from .forms import *
