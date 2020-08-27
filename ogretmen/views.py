@@ -4,16 +4,13 @@ import urllib
 
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect, get_object_or_404
-from django.template import Context
-from wkhtmltopdf.views import PDFTemplateView, PDFTemplateResponse
-from xhtml2pdf import pisa
 
 from oturum.models import *
 from .forms import *
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse
 from rest_framework.authtoken.models import Token
-import matplotlib
+
 import matplotlib.pyplot as plt
 import numpy as np
 
