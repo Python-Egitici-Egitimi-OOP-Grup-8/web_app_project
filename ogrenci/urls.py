@@ -3,7 +3,7 @@ from . import views
 from .views import PDFOlustur
 
 urlpatterns = [
-    path('',views.ogretmenIndex, name='ogretmen'),
+    path('',views.ogrenciIndex, name='ogrhome'),
     path('sinavlarim',views.sinavlarim, name='sinavlarim'),
     path('profilim',views.profil, name='profilim'),
     path('raporal/<str:pk>', views.raporAl, name='raporal'),
