@@ -14,28 +14,21 @@
                             <th>Sınav Kodu</th>
                             <th>Oluşturulma</th>
                             <th>Sınav Adı</th>
-                            <th>Doğru Cevap</th>
-                            <th>Puan</th>
                             <th>Analiz Raporu</th>
-                            
                         </tr>
-                        {% for sinav in sinavlar %}
-                        <tr>
-                            <td>{{ sinav.id }}</td>
-                            <td>{{ sinav.olusturulmatarihi.date }}</td>
-                            <td>{{ sinav.baslik }}</td>
-                                                      
-                            
-                            <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>
-                            
-                        </tr>
+                        {% for i in icerik %}
+                            <tr>
+                                <td>{{ i.sinav.id }}</td>
+                                <td>{{ i.sinav.olusturulmatarihi }}</td>
+                                <td>{{ i.sinav.baslik }}</td>
+                                <td><a class="btn btn-sm btn-info" href="{% url 'ogrraporal' i.sinav.id %}">Al</a></td>
+                            </tr>
                         {% endfor %}
                     {% else %}
                         <h4>Üzerinizde tanımlı sınav sınav bulunmamaktadır. Lütfen sınav ekleyiniz!</h4>
                     {% endif %}
                     </table>
                 </div>
-            
             </div>
         </div>
     </div>

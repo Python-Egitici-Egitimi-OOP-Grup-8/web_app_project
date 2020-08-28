@@ -7,4 +7,6 @@ urlpatterns = [
     path('profilim',views.profil, name='ogrprofilim'),
     path('profilguncelle', views.updateProfil, name='ogrprofilguncelle'),
     path('paroladegis', views.parolaDegistir, name='ogrparoladegis'),
+    path('raporal/<str:pk>', views.raporAl, name='ogrraporal'),
+    path('pdfal/<str:pk>', views.PDFOlustur.as_view(), name='ogrpdfal'),
 ]

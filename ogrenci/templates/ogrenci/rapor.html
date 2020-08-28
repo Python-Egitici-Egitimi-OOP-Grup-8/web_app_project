@@ -13,35 +13,47 @@
                             </div>
                     </div>
                 {% else %}
-                    <a target="_blank" class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'pdfal' sinav_id %}">PDF Al</a>
+                    <a target="_blank" class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'ogrpdfal' sinav_id %}">PDF Al</a>
                         <div class="card card-body">
                             <br>
-                            <h3>Sınav Analizi </h3>
+                            <h3>Sınav Karnesi({{ sinav_adi }})</h3>
                             <br>
                                         <div class="row">
                                             <div class="col">
                                                     <div class="col-md-0">
                                                         <div class="card text-center text-black  mb-3" id="">
                                                             <div class="card-header">
-                                                                <h6 class="card-title">Toplam Öğrenci</h6>
+                                                                <h6 class="card-title">Sınav Puanım</h6>
                                                             </div>
                                                             <div class="card-body">
-                                                                <h3 class="card-title">{{ ogrenci_sayisi }}</h3>
+                                                                <h3 class="card-title">{{ ogr_puan }}</h3>
                                                             </div>
                                                         </div>
                                                     </div>
                                             </div>
                                             <div class="col">
-                                                    <div class="col-md-0">
-                                                        <div class="card text-center text-black  mb-3" id="">
-                                                            <div class="card-header">
-                                                                <h6 class="card-title">Başarılı Öğrenci</h6>
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <h3 class="card-title">{{ basarili_sayisi }}</h3>
-                                                            </div>
+                                                <div class="col-md-0">
+                                                    <div class="card text-center text-black  mb-3" id="">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">En Yüksek Puan</h6>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <h3 class="card-title">{{ max_not }}</h3>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="col-md-0">
+                                                    <div class="card text-center text-black  mb-3" id="">
+                                                        <div class="card-header">
+                                                            <h6 class="card-title">En Düşük Puan</h6>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <h3 class="card-title">{{ min_not }}</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col">
                                                 <div class="col-md-0">
@@ -55,57 +67,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col">
-                                                <div class="col-md-0">
-                                                    <div class="card text-center text-black  mb-3" id="">
-                                                        <div class="card-header">
-                                                            <h6 class="card-title">Medyan (Ortanca)</h6>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <h3 class="card-title">{{ ortanca_değer }}</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="col-md-0">
-                                                    <div class="card text-center text-black  mb-3" id="">
-                                                        <div class="card-header">
-                                                            <h6 class="card-title">Standart Sapma</h6>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <h3 class="card-title">{{ standart_sapma }}</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="col-md-0">
-                                                    <div class="card text-center text-black  mb-3" id="">
-                                                        <div class="card-header">
-                                                            <h6 class="card-title">En Yüksek Not</h6>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <h3 class="card-title">{{ max_not }}</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col">
-                                                <div class="col-md-0">
-                                                    <div class="card text-center text-black  mb-3" id="">
-                                                        <div class="card-header">
-                                                            <h6 class="card-title">En Düşük Not</h6>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <h3 class="card-title">{{ min_not }}</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
-                                        <div>
+                            <div>
                                         <table class="table table-sm table-hover">
                                             <thead class="thead-light">
                                             <tr>
@@ -127,22 +90,21 @@
                                                     </td>
                                                 {% endfor %}
                                             </tr>
-                                                {% for ogrenci in sinav_rapor %}
                                                     <tr>
-                                                    {% for cell in ogrenci %}
+                                                    {% for cell in ogr_cevaplari %}
                                                         {% if forloop.counter > 3 and forloop.counter <= sorusayisi %}
                                                             <td>
-                                                            {% if cell == '0'%}
+                                                            {% if cell == 0%}
                                                                 BOŞ
-                                                            {% elif cell == '1' %}
+                                                            {% elif cell == 1 %}
                                                                 A
-                                                            {% elif cell == '2' %}
+                                                            {% elif cell == 2 %}
                                                                 B
-                                                            {% elif cell == '3' %}
+                                                            {% elif cell == 3 %}
                                                                 C
-                                                            {% elif cell == '4' %}
+                                                            {% elif cell == 4 %}
                                                                 D
-                                                            {% elif cell == '5' %}
+                                                            {% elif cell == 5 %}
                                                                 E
                                                             {% else %}
                                                                 {{ cell }}
@@ -153,68 +115,9 @@
                                                         {% endif %}
                                                     {% endfor %}
                                                     </tr>
-                                                {% endfor %}
                                         </table>
                                     </div>
                         </div>
-
-                <div class="row justify-content-center mt-7">
-                    <div class="col-md text-center">
-                            <div class="col-md-0">
-                                <div class="card card-body">
-                                    <h3>Soru Analizi</h3>
-                                    <table class="table table-sm table-hover">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Soru No</th>
-                                            <th>Soru Kazanım</th>
-                                            <th>Madde Güçlük İndeksi</th>
-                                            <th>Doğru Cevaplayan Sayısı</th>
-                                            <th>Yanlış Cevaplayan Sayısı</th>
-                                            <th>Boş Bırakan Sayısı</th>
-                                        </tr>
-                                    </thead>
-                                        {% for no,kazanim,gucluk,dogru,yanlis,bos in soru_rapor %}
-                                            <tr>
-                                                <td>{{ no }}</td>
-                                                <td>{{ kazanim }}</td>
-                                                <td>{{ gucluk }}</td>
-                                                <td>{{ dogru }}</td>
-                                                <td>{{ yanlis }}</td>
-                                                <td>{{ bos }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                    </table>
-                                </div>
-                            </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="col-md-0">
-                                    <div class="card text-center text-black  mb-3" id="">
-                                        <div class="card-body">
-                                            <p>
-                                                Sınav Başarı
-                                            </p>
-                                            <img src="data:image/png;base64,{{ basari_grafik }}" alt="" height="300">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="col-md-0">
-                                    <div class="card text-center text-black  mb-3" id="">
-                                        <div class="card-body">
-                                            <p>
-                                                Madde Güçlük İndeksleri
-                                            </p>
-                                            <img src="data:image/png;base64,{{ gucluk_grafik }}" alt="" height="300">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 {% endif %}
             </div>
         </div>

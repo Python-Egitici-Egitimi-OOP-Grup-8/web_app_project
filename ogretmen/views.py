@@ -301,7 +301,7 @@ class PDFOlustur(View):
             sinav_ogrenci_say = ogrenciler.count()
             sorupuan = SoruPuanlama.objects.filter(sinav_id=pk).values()
             raporList = []
-            cevap_kagidi = [0, request.user.first_name, request.user.last_name]
+            cevap_kagidi = [0, 'Cevap', 'Anahtarı']
             cevaplist = []
 
             for dcevap in sinav:
