@@ -16,7 +16,7 @@
                     <a target="_blank" class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'ogrpdfal' sinav_id %}">PDF Al</a>
                         <div class="card card-body">
                             <br>
-                            <h3>Sınav Karnesi({{ sinav_adi }})</h3>
+                            <h3>Sınav Karnesi ({{ sinav_adi }})</h3>
                             <br>
                                         <div class="row">
                                             <div class="col">
@@ -72,14 +72,14 @@
                                         <table class="table table-sm table-hover">
                                             <thead class="thead-light">
                                             <tr>
-                                                <th>No</th>
+                                                <th>#</th>
                                                 <th>Adı</th>
                                                 <th>Soyadı</th>
                                                 {% for i in sorusayilist%}
                                                     <th>Soru {{ i }}</th>
                                                 {% endfor %}
-                                                <th>Doğru Sayısı</th>
-                                                <th>Yanlış Sayısı</th>
+                                                <th>DS</th>
+                                                <th>YS</th>
                                                 <th>Notu</th>
                                             </tr>
                                             </thead>
