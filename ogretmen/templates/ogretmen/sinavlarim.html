@@ -28,12 +28,12 @@
                             <td><a class="btn btn-sm btn-info" href="{% url 'cevapekle' sinav.id%}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'kazanimlar' sinav.id %}">Ekle | Değiştir</a></td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'sorupuan' sinav.id %}">Ekle | Değiştir</a></td>
-                            <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Al</a></td>
+                            <td><a class="btn btn-sm btn-info" href="{% url 'raporal' sinav.id %}">Raporla</a></td>
                             <td><a class="btn btn-sm btn-danger" href="{% url 'sinavsil' sinav.id %}">Sil</a></td>
                         </tr>
                         {% endfor %}
                     {% else %}
-                        <h4>Üzerinizde tanımlı sınav sınav bulunmamaktadır. Lütfen sınav ekleyiniz!</h4>
+                        <h4>Tanımlı sınavlarınız burada listelenecektir.</h4>
                     {% endif %}
                     </table>
                 </div>
