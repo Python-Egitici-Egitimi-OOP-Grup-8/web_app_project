@@ -32,6 +32,7 @@ def profil(request):
         'adi' : user.first_name,
         'soyadi' : user.last_name,
         'email' : user.email,
+        'id' : user.id,
     }
     return render(request, 'ogrenci/profil.html',context)
 

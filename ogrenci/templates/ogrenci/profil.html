@@ -2,12 +2,18 @@
 {% block content %}
 <br><br><br>
 <div class="row justify-content-center mt-5">
+
 	<div class="col-md-5">
         <h2>Profilim</h2>
+		<br>
+		<div class="alert alert-success" role="alert">
+  Optik Forma kodlyacağınız Id: {{id}}
+</div>
 		<div class="card card-body">
             <p>Adı : {{ adi }}</p>
             <p>Soyadı : {{ soyadi }}</p>
             <p>E-Posta : {{ email }}</p>
+			<p></p>
 			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'ogrprofilguncelle' %}">Bilgilerimi Güncelle</a>
 			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'ogrparoladegis' %}">Parola Değiştir</a>
 		</div>
